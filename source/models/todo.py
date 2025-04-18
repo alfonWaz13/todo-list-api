@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 
-from source.database import Base
+from .base import Base
 
 
 class ToDos(Base):
