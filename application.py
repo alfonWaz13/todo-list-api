@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 import uvicorn
 from fastapi import FastAPI
 
@@ -5,7 +7,12 @@ from routers import todos
 from source.database import engine
 from source.models import Base
 
-Base.metadata.create_all(bind=engine)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):  # noqa
+    Base.metadata.create_all(bind=engine)
+    yield
+
 app = FastAPI()
 app.include_router(todos.router)
 
