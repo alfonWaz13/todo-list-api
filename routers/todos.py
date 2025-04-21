@@ -18,7 +18,7 @@ async def read_all(db: db_dependency):
     return todos
 
 @router.get("/{todo_id}", status_code=status.HTTP_200_OK)
-async def read_todo(db: db_dependency, todo_id: int = Path(gt=0)):
+async def read_todo(db: db_dependency, todo_id: int):
     todo = db.query(ToDos).filter(ToDos.id == todo_id).first()
     if todo:
         return todo
