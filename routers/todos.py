@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Path, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from starlette import status
 from sqlalchemy.orm import Session
 
@@ -42,4 +42,12 @@ async def update_todo(db: db_dependency, todo_id: int, todo_request: ToDoRequest
     todo_to_update.completed = todo_request.completed
 
     db.add(todo_to_update)
+    db.commit()
+
+@router.delete("/{todo_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_todo(db: db_dependency, todo_id: int):
+    todo_to_delete: ToDos = db.query(ToDos).filter(ToDos.id == todo_id).first()
+    if not todo_to_delete:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Item not found')
+    db.delete(todo_to_delete)
     db.commit()
