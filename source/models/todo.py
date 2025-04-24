@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean
 
 from .base import Base
 
@@ -10,5 +10,4 @@ class ToDos(Base):
     title = Column(String)
     description = Column(String)
     priority = Column(Integer)
-    complete = Column(Boolean, default=False)
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    completed = Column(Boolean, default=False)
